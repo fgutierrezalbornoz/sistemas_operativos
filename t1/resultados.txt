@@ -1,0 +1,130 @@
+Sistema operativo utilizado
+Linux debian12 6.1.0-18-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.1.76-1 (2024-02-01) x86_64 GNU/Linux
+==== run-san ====
+gcc -g -DSAN=1 -fsanitize=address -fsanitize=undefined -Wall -Werror -pedantic -std=c18 -Wno-unused-function  test-viajante.c viajante.c -lm -o viajante.bin-san
+./viajante.bin-san
+Test 1: ejemplo con solo 6 ciudades
+Calculando secuencialmente
+Resultados viajante: nperm=8000000 min=2.175692 primer_rand=1806224600
+0 1 2 4 5 3 0
+Calculando en paralelo
+Resultado final: nperm=8000000 distancia minima=2.175692
+0 1 2 4 5 3 0
+Test 1 aprobado
+
+--------------------------------------------------
+
+Test 2: Un ejemplo grande con 33 ciudades
+Precalentando secuencialmente
+Resultados viajante: nperm=10000 min=12.024182 primer_rand=3171603433
+0 29 3 24 5 19 13 12 2 18 7 26 21 22 6 10 32 30 8 20 15 4 14 1 9 25 27 16 11 31 23 28 17 0
+Calculando secuencialmente con k= 1000000 permutaciones
+Resultados viajante: nperm=1000000 min=10.553377 primer_rand=2612593740
+0 15 6 9 16 7 13 4 29 18 22 20 19 2 14 12 8 30 10 32 31 3 21 26 25 24 11 23 5 27 28 17 1 0
+
+Resultado secuencial Tiempo=2299 distancia minima=10.553377
+
+-----
+Calculando en paralelo con k= 1000000 permutaciones, intento 1
+
+Resultado paralelo: Tiempo=1281 speedup=1.794692 distancia minima=10.998137
+0 31 5 23 24 18 3 8 12 25 19 6 28 17 11 2 4 14 30 32 10 7 16 26 15 13 21 27 20 29 22 1 9 0
+Test 2 aprobado: speedup >= 0x
+
+Felicitaciones: su tarea funciona
+==== run-thr ====
+gcc -g -DSAN=1 -fsanitize=thread -Wall -Werror -pedantic -std=c18 -Wno-unused-function  test-viajante.c viajante.c -lm -o viajante.bin-thr
+./viajante.bin-thr
+Test 1: ejemplo con solo 6 ciudades
+Calculando secuencialmente
+Resultados viajante: nperm=8000000 min=2.175692 primer_rand=1806224600
+0 1 2 4 5 3 0
+Calculando en paralelo
+Resultado final: nperm=8000000 distancia minima=2.175692
+0 1 2 4 5 3 0
+Test 1 aprobado
+
+--------------------------------------------------
+
+Test 2: Un ejemplo grande con 33 ciudades
+Precalentando secuencialmente
+Resultados viajante: nperm=10000 min=12.024182 primer_rand=3171603433
+0 29 3 24 5 19 13 12 2 18 7 26 21 22 6 10 32 30 8 20 15 4 14 1 9 25 27 16 11 31 23 28 17 0
+Calculando secuencialmente con k= 1000000 permutaciones
+Resultados viajante: nperm=1000000 min=10.553377 primer_rand=2612593740
+0 15 6 9 16 7 13 4 29 18 22 20 19 2 14 12 8 30 10 32 31 3 21 26 25 24 11 23 5 27 28 17 1 0
+
+Resultado secuencial Tiempo=5678 distancia minima=10.553377
+
+-----
+Calculando en paralelo con k= 1000000 permutaciones, intento 1
+
+Resultado paralelo: Tiempo=3675 speedup=1.545034 distancia minima=10.998137
+0 31 5 23 24 18 3 8 12 25 19 6 28 17 11 2 4 14 30 32 10 7 16 26 15 13 21 27 20 29 22 1 9 0
+Test 2 aprobado: speedup >= 0x
+
+Felicitaciones: su tarea funciona
+==== run-g ====
+gcc -g -Wall -Werror -pedantic -std=c18 -Wno-unused-function  test-viajante.c viajante.c -lm -o viajante.bin-g
+./viajante.bin-g
+Test 1: ejemplo con solo 6 ciudades
+Calculando secuencialmente
+Resultados viajante: nperm=8000000 min=2.175692 primer_rand=1806224600
+0 1 2 4 5 3 0
+Calculando en paralelo
+Resultado final: nperm=8000000 distancia minima=2.175692
+0 1 2 4 5 3 0
+Test 1 aprobado
+
+--------------------------------------------------
+
+Test 2: Un ejemplo grande con 33 ciudades
+Precalentando secuencialmente
+Resultados viajante: nperm=10000 min=12.024182 primer_rand=3171603433
+0 29 3 24 5 19 13 12 2 18 7 26 21 22 6 10 32 30 8 20 15 4 14 1 9 25 27 16 11 31 23 28 17 0
+Calculando secuencialmente con k= 1000000 permutaciones
+Resultados viajante: nperm=1000000 min=10.553377 primer_rand=2612593740
+0 15 6 9 16 7 13 4 29 18 22 20 19 2 14 12 8 30 10 32 31 3 21 26 25 24 11 23 5 27 28 17 1 0
+
+Resultado secuencial Tiempo=880 distancia minima=10.553377
+
+-----
+Calculando en paralelo con k= 1000000 permutaciones, intento 1
+
+Resultado paralelo: Tiempo=466 speedup=1.888412 distancia minima=10.998137
+0 31 5 23 24 18 3 8 12 25 19 6 28 17 11 2 4 14 30 32 10 7 16 26 15 13 21 27 20 29 22 1 9 0
+Test 2 aprobado: speedup >= 0x
+
+Felicitaciones: su tarea funciona
+==== run ====
+gcc -O -DOPT=1 -Wall -Werror -pedantic -std=c18 -Wno-unused-function  test-viajante.c viajante.c -lm -o viajante.bin
+./viajante.bin
+Test 1: ejemplo con solo 6 ciudades
+Calculando secuencialmente
+Resultados viajante: nperm=8000000 min=2.175692 primer_rand=1806224600
+0 1 2 4 5 3 0
+Calculando en paralelo
+Resultado final: nperm=8000000 distancia minima=2.175692
+0 1 2 4 5 3 0
+Test 1 aprobado
+
+--------------------------------------------------
+
+Test 2: Un ejemplo grande con 33 ciudades
+Precalentando secuencialmente
+Resultados viajante: nperm=100000 min=11.905195 primer_rand=3171603433
+0 15 6 23 8 13 14 16 18 1 12 20 31 30 4 29 2 5 32 10 7 24 22 21 3 26 9 25 11 17 27 28 19 0
+Calculando secuencialmente con k= 10000000 permutaciones
+Resultados viajante: nperm=10000000 min=10.553377 primer_rand=2612593740
+0 15 6 9 16 7 13 4 29 18 22 20 19 2 14 12 8 30 10 32 31 3 21 26 25 24 11 23 5 27 28 17 1 0
+
+Resultado secuencial Tiempo=2555 distancia minima=10.553377
+
+-----
+Calculando en paralelo con k= 10000000 permutaciones, intento 1
+
+Resultado paralelo: Tiempo=1498 speedup=1.705607 distancia minima=10.537229
+0 9 22 15 26 1 13 30 6 5 23 27 11 24 18 3 20 7 16 17 19 10 32 12 8 2 29 4 14 21 28 31 25 0
+Test 2 aprobado: speedup >= 1.7x
+
+Felicitaciones: su tarea funciona

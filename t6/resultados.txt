@@ -1,0 +1,653 @@
+Sistema operativo utilizado
+Linux Pancho 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
+==== run-san ====
+gcc -g -DSAN=1 -fsanitize=address -fsanitize=undefined -Wall -Werror -pedantic -std=c18  test-subasta.c subasta.c pss.c spinlocks.c swap-x86_64.s -lm -lpthread -o subasta.bin-san
+./subasta.bin-san
+Prueba con spinlocks implementados con mutex sin busywaiting
+una sola subasta con tiempos aleatorios
+juan ofrece 3
+pepe ofrece 2
+pedro ofrece 1
+pedro fallo con su oferta de 1
+diego ofrece 4
+pepe fallo con su oferta de 2
+juan se adjudico un item a 3
+diego se adjudico un item a 4
+El monto recaudado es 7 y quedaron 0 unidades sin vender
+test aprobado
+-------------
+una sola subasta con tiempos deterministicos
+ana ofrece 7
+maria ofrece 3
+ximena ofrece 4
+erika ofrece 5
+maria fallo con su oferta de 3
+sonia ofrece 6
+ximena fallo con su oferta de 4
+erika se adjudico un item a 5
+sonia se adjudico un item a 6
+ana se adjudico un item a 7
+El monto recaudado es 18 y quedaron 0 unidades sin vender
+test aprobado
+-------------
+una sola subasta con menos oferentes que unidades disponibles
+tomas ofrece 2
+monica ofrece 3
+El monto recaudado es 5 y quedaron 3 unidades sin vender
+tomas se adjudico un item a 2
+monica se adjudico un item a 3
+test aprobado
+-------------
+Test de robustez
+30 subastas en paralelo
+tomas ofrece 2
+ana ofrece 7
+diego ofrece 4
+pepe ofrece 2
+juan ofrece 3
+pepe fallo con su oferta de 2
+pedro ofrece 1
+pedro fallo con su oferta de 1
+juan se adjudico un item a 3
+diego se adjudico un item a 4
+El monto recaudado es 7 y quedaron 0 unidades sin vender
+monica ofrece 3
+maria ofrece 3
+El monto recaudado es 5 y quedaron 3 unidades sin vender
+monica se adjudico un item a 3
+tomas se adjudico un item a 2
+ximena ofrece 4
+erika ofrece 5
+maria fallo con su oferta de 3
+sonia ofrece 6
+ximena fallo con su oferta de 4
+erika se adjudico un item a 5
+ana se adjudico un item a 7
+sonia se adjudico un item a 6
+El monto recaudado es 18 y quedaron 0 unidades sin vender
+test aprobado
+-------------
+100 subastas en paralelo
+ana ofrece 7
+pedro ofrece 1
+diego ofrece 4
+pepe ofrece 2
+pedro fallo con su oferta de 1
+juan ofrece 3
+pepe fallo con su oferta de 2
+juan se adjudico un item a 3
+diego se adjudico un item a 4
+El monto recaudado es 7 y quedaron 0 unidades sin vender
+maria ofrece 3
+ximena ofrece 4
+erika ofrece 5
+maria fallo con su oferta de 3
+sonia ofrece 6
+ximena fallo con su oferta de 4
+erika se adjudico un item a 5
+sonia se adjudico un item a 6
+ana se adjudico un item a 7
+El monto recaudado es 18 y quedaron 0 unidades sin vender
+Enterrando tareas.  Cada '.' son 30 tareas enterradas.
+....
+test aprobado
+-------------
+
+===============================================
+Prueba con spinlocks verdaderos con busywaiting
+===============================================
+
+una sola subasta con tiempos aleatorios
+pepe ofrece 2
+pedro ofrece 1
+diego ofrece 4
+pedro fallo con su oferta de 1
+juan ofrece 3
+pepe fallo con su oferta de 2
+juan se adjudico un item a 3
+diego se adjudico un item a 4
+El monto recaudado es 7 y quedaron 0 unidades sin vender
+test aprobado
+-------------
+una sola subasta con tiempos deterministicos
+ana ofrece 7
+maria ofrece 3
+ximena ofrece 4
+erika ofrece 5
+maria fallo con su oferta de 3
+sonia ofrece 6
+ximena fallo con su oferta de 4
+ana se adjudico un item a 7
+erika se adjudico un item a 5
+sonia se adjudico un item a 6
+El monto recaudado es 18 y quedaron 0 unidades sin vender
+test aprobado
+-------------
+una sola subasta con menos oferentes que unidades disponibles
+tomas ofrece 2
+monica ofrece 3
+El monto recaudado es 5 y quedaron 3 unidades sin vender
+monica se adjudico un item a 3
+tomas se adjudico un item a 2
+test aprobado
+-------------
+Test de robustez
+30 subastas en paralelo
+tomas ofrece 2
+ana ofrece 7
+juan ofrece 3
+pedro ofrece 1
+diego ofrece 4
+pedro fallo con su oferta de 1
+pepe ofrece 2
+pepe fallo con su oferta de 2
+juan se adjudico un item a 3
+diego se adjudico un item a 4
+monica ofrece 3
+El monto recaudado es 7 y quedaron 0 unidades sin vender
+maria ofrece 3
+El monto recaudado es 5 y quedaron 3 unidades sin vender
+monica se adjudico un item a 3
+tomas se adjudico un item a 2
+ximena ofrece 4
+erika ofrece 5
+maria fallo con su oferta de 3
+sonia ofrece 6
+ximena fallo con su oferta de 4
+ana se adjudico un item a 7
+sonia se adjudico un item a 6
+erika se adjudico un item a 5
+El monto recaudado es 18 y quedaron 0 unidades sin vender
+test aprobado
+-------------
+100 subastas en paralelo
+juan ofrece 3
+maria ofrece 3
+diego ofrece 4
+ximena ofrece 4
+ana ofrece 7
+pedro ofrece 1
+pedro fallo con su oferta de 1
+pepe ofrece 2
+pepe fallo con su oferta de 2
+diego se adjudico un item a 4
+juan se adjudico un item a 3
+El monto recaudado es 7 y quedaron 0 unidades sin vender
+erika ofrece 5
+maria fallo con su oferta de 3
+sonia ofrece 6
+ximena fallo con su oferta de 4
+erika se adjudico un item a 5
+ana se adjudico un item a 7
+sonia se adjudico un item a 6
+El monto recaudado es 18 y quedaron 0 unidades sin vender
+Enterrando tareas.  Cada '.' son 30 tareas enterradas.
+....
+test aprobado
+-------------
+Felicitaciones: paso todos los tests
+==== run-thr ====
+gcc -g -DSAN=1 -DSANTHR -fsanitize=thread -Wall -Werror -pedantic -std=c18  test-subasta.c subasta.c pss.c spinlocks.c swap-x86_64.s -lm -lpthread -o subasta.bin-thr
+./subasta.bin-thr sin busy waiting
+Prueba con spinlocks implementados con mutex sin busywaiting
+una sola subasta con tiempos aleatorios
+pedro ofrece 1
+diego ofrece 4
+juan ofrece 3
+pedro fallo con su oferta de 1
+pepe ofrece 2
+pepe fallo con su oferta de 2
+juan se adjudico un item a 3
+diego se adjudico un item a 4
+El monto recaudado es 7 y quedaron 0 unidades sin vender
+test aprobado
+-------------
+una sola subasta con tiempos deterministicos
+ana ofrece 7
+maria ofrece 3
+ximena ofrece 4
+erika ofrece 5
+maria fallo con su oferta de 3
+sonia ofrece 6
+ximena fallo con su oferta de 4
+erika se adjudico un item a 5
+ana se adjudico un item a 7
+sonia se adjudico un item a 6
+El monto recaudado es 18 y quedaron 0 unidades sin vender
+test aprobado
+-------------
+una sola subasta con menos oferentes que unidades disponibles
+tomas ofrece 2
+monica ofrece 3
+El monto recaudado es 5 y quedaron 3 unidades sin vender
+tomas se adjudico un item a 2
+monica se adjudico un item a 3
+test aprobado
+-------------
+Test de robustez
+30 subastas en paralelo
+ana ofrece 7
+tomas ofrece 2
+diego ofrece 4
+pepe ofrece 2
+pedro ofrece 1
+pedro fallo con su oferta de 1
+juan ofrece 3
+pepe fallo con su oferta de 2
+juan se adjudico un item a 3
+diego se adjudico un item a 4
+El monto recaudado es 7 y quedaron 0 unidades sin vender
+maria ofrece 3
+monica ofrece 3
+ximena ofrece 4
+El monto recaudado es 5 y quedaron 3 unidades sin vender
+tomas se adjudico un item a 2
+monica se adjudico un item a 3
+erika ofrece 5
+maria fallo con su oferta de 3
+sonia ofrece 6
+ximena fallo con su oferta de 4
+ana se adjudico un item a 7
+erika se adjudico un item a 5
+sonia se adjudico un item a 6
+El monto recaudado es 18 y quedaron 0 unidades sin vender
+test aprobado
+-------------
+100 subastas en paralelo
+ana ofrece 7
+pedro ofrece 1
+diego ofrece 4
+pepe ofrece 2
+pedro fallo con su oferta de 1
+juan ofrece 3
+pepe fallo con su oferta de 2
+juan se adjudico un item a 3
+diego se adjudico un item a 4
+El monto recaudado es 7 y quedaron 0 unidades sin vender
+maria ofrece 3
+ximena ofrece 4
+erika ofrece 5
+maria fallo con su oferta de 3
+sonia ofrece 6
+ximena fallo con su oferta de 4
+erika se adjudico un item a 5
+sonia se adjudico un item a 6
+ana se adjudico un item a 7
+El monto recaudado es 18 y quedaron 0 unidades sin vender
+Enterrando tareas.  Cada '.' son 30 tareas enterradas.
+....
+test aprobado
+-------------
+Felicitaciones: paso todos los tests
+==== run-g ====
+gcc -g -Wall -Werror -pedantic -std=c18  test-subasta.c subasta.c pss.c spinlocks.c swap-x86_64.s -lm -lpthread -o subasta.bin-g
+./subasta.bin-g
+Prueba con spinlocks implementados con mutex sin busywaiting
+una sola subasta con tiempos aleatorios
+pedro ofrece 1
+diego ofrece 4
+juan ofrece 3
+pedro fallo con su oferta de 1
+pepe ofrece 2
+pepe fallo con su oferta de 2
+juan se adjudico un item a 3
+diego se adjudico un item a 4
+El monto recaudado es 7 y quedaron 0 unidades sin vender
+test aprobado
+-------------
+una sola subasta con tiempos deterministicos
+ana ofrece 7
+maria ofrece 3
+ximena ofrece 4
+erika ofrece 5
+maria fallo con su oferta de 3
+sonia ofrece 6
+ximena fallo con su oferta de 4
+erika se adjudico un item a 5
+sonia se adjudico un item a 6
+ana se adjudico un item a 7
+El monto recaudado es 18 y quedaron 0 unidades sin vender
+test aprobado
+-------------
+una sola subasta con menos oferentes que unidades disponibles
+tomas ofrece 2
+monica ofrece 3
+El monto recaudado es 5 y quedaron 3 unidades sin vender
+tomas se adjudico un item a 2
+monica se adjudico un item a 3
+test aprobado
+-------------
+Test de robustez
+30 subastas en paralelo
+ana ofrece 7
+tomas ofrece 2
+diego ofrece 4
+pepe ofrece 2
+pedro ofrece 1
+pedro fallo con su oferta de 1
+juan ofrece 3
+pepe fallo con su oferta de 2
+juan se adjudico un item a 3
+diego se adjudico un item a 4
+El monto recaudado es 7 y quedaron 0 unidades sin vender
+maria ofrece 3
+monica ofrece 3
+ximena ofrece 4
+El monto recaudado es 5 y quedaron 3 unidades sin vender
+monica se adjudico un item a 3
+tomas se adjudico un item a 2
+erika ofrece 5
+maria fallo con su oferta de 3
+sonia ofrece 6
+ximena fallo con su oferta de 4
+sonia se adjudico un item a 6
+erika se adjudico un item a 5
+ana se adjudico un item a 7
+El monto recaudado es 18 y quedaron 0 unidades sin vender
+test aprobado
+-------------
+100 subastas en paralelo
+ana ofrece 7
+pedro ofrece 1
+diego ofrece 4
+pepe ofrece 2
+pedro fallo con su oferta de 1
+juan ofrece 3
+pepe fallo con su oferta de 2
+juan se adjudico un item a 3
+diego se adjudico un item a 4
+El monto recaudado es 7 y quedaron 0 unidades sin vender
+maria ofrece 3
+ximena ofrece 4
+erika ofrece 5
+maria fallo con su oferta de 3
+sonia ofrece 6
+ximena fallo con su oferta de 4
+erika se adjudico un item a 5
+sonia se adjudico un item a 6
+ana se adjudico un item a 7
+El monto recaudado es 18 y quedaron 0 unidades sin vender
+Enterrando tareas.  Cada '.' son 30 tareas enterradas.
+....
+test aprobado
+-------------
+
+===============================================
+Prueba con spinlocks verdaderos con busywaiting
+===============================================
+
+una sola subasta con tiempos aleatorios
+diego ofrece 4
+pedro ofrece 1
+pepe ofrece 2
+pedro fallo con su oferta de 1
+juan ofrece 3
+pepe fallo con su oferta de 2
+juan se adjudico un item a 3
+diego se adjudico un item a 4
+El monto recaudado es 7 y quedaron 0 unidades sin vender
+test aprobado
+-------------
+una sola subasta con tiempos deterministicos
+ana ofrece 7
+maria ofrece 3
+ximena ofrece 4
+erika ofrece 5
+maria fallo con su oferta de 3
+sonia ofrece 6
+ximena fallo con su oferta de 4
+erika se adjudico un item a 5
+sonia se adjudico un item a 6
+ana se adjudico un item a 7
+El monto recaudado es 18 y quedaron 0 unidades sin vender
+test aprobado
+-------------
+una sola subasta con menos oferentes que unidades disponibles
+tomas ofrece 2
+monica ofrece 3
+El monto recaudado es 5 y quedaron 3 unidades sin vender
+tomas se adjudico un item a 2
+monica se adjudico un item a 3
+test aprobado
+-------------
+Test de robustez
+30 subastas en paralelo
+ana ofrece 7
+tomas ofrece 2
+juan ofrece 3
+diego ofrece 4
+pepe ofrece 2
+pepe fallo con su oferta de 2
+pedro ofrece 1
+pedro fallo con su oferta de 1
+juan se adjudico un item a 3
+diego se adjudico un item a 4
+El monto recaudado es 7 y quedaron 0 unidades sin vender
+maria ofrece 3
+monica ofrece 3
+El monto recaudado es 5 y quedaron 3 unidades sin vender
+monica se adjudico un item a 3
+tomas se adjudico un item a 2
+ximena ofrece 4
+erika ofrece 5
+maria fallo con su oferta de 3
+sonia ofrece 6
+ximena fallo con su oferta de 4
+sonia se adjudico un item a 6
+ana se adjudico un item a 7
+erika se adjudico un item a 5
+El monto recaudado es 18 y quedaron 0 unidades sin vender
+test aprobado
+-------------
+100 subastas en paralelo
+ana ofrece 7
+pedro ofrece 1
+diego ofrece 4
+juan ofrece 3
+pedro fallo con su oferta de 1
+pepe ofrece 2
+pepe fallo con su oferta de 2
+juan se adjudico un item a 3
+diego se adjudico un item a 4
+El monto recaudado es 7 y quedaron 0 unidades sin vender
+maria ofrece 3
+ximena ofrece 4
+erika ofrece 5
+maria fallo con su oferta de 3
+sonia ofrece 6
+ximena fallo con su oferta de 4
+erika se adjudico un item a 5
+ana se adjudico un item a 7
+sonia se adjudico un item a 6
+El monto recaudado es 18 y quedaron 0 unidades sin vender
+Enterrando tareas.  Cada '.' son 30 tareas enterradas.
+....
+test aprobado
+-------------
+Felicitaciones: paso todos los tests
+==== run ====
+gcc -O -DOPT=1 -Wall -Werror -pedantic -std=c18  test-subasta.c subasta.c pss.c spinlocks.c swap-x86_64.s -lm -lpthread -o subasta.bin
+./subasta.bin
+Prueba con spinlocks implementados con mutex sin busywaiting
+una sola subasta con tiempos aleatorios
+pedro ofrece 1
+diego ofrece 4
+juan ofrece 3
+pedro fallo con su oferta de 1
+pepe ofrece 2
+pepe fallo con su oferta de 2
+juan se adjudico un item a 3
+diego se adjudico un item a 4
+El monto recaudado es 7 y quedaron 0 unidades sin vender
+test aprobado
+-------------
+una sola subasta con tiempos deterministicos
+ana ofrece 7
+maria ofrece 3
+ximena ofrece 4
+erika ofrece 5
+maria fallo con su oferta de 3
+sonia ofrece 6
+ximena fallo con su oferta de 4
+erika se adjudico un item a 5
+sonia se adjudico un item a 6
+ana se adjudico un item a 7
+El monto recaudado es 18 y quedaron 0 unidades sin vender
+test aprobado
+-------------
+una sola subasta con menos oferentes que unidades disponibles
+tomas ofrece 2
+monica ofrece 3
+El monto recaudado es 5 y quedaron 3 unidades sin vender
+monica se adjudico un item a 3
+tomas se adjudico un item a 2
+test aprobado
+-------------
+Test de robustez
+30 subastas en paralelo
+ana ofrece 7
+tomas ofrece 2
+diego ofrece 4
+pepe ofrece 2
+pedro ofrece 1
+pedro fallo con su oferta de 1
+juan ofrece 3
+pepe fallo con su oferta de 2
+juan se adjudico un item a 3
+diego se adjudico un item a 4
+El monto recaudado es 7 y quedaron 0 unidades sin vender
+maria ofrece 3
+monica ofrece 3
+ximena ofrece 4
+El monto recaudado es 5 y quedaron 3 unidades sin vender
+tomas se adjudico un item a 2
+monica se adjudico un item a 3
+erika ofrece 5
+maria fallo con su oferta de 3
+sonia ofrece 6
+ximena fallo con su oferta de 4
+erika se adjudico un item a 5
+ana se adjudico un item a 7
+sonia se adjudico un item a 6
+El monto recaudado es 18 y quedaron 0 unidades sin vender
+test aprobado
+-------------
+500 subastas en paralelo
+ana ofrece 7
+pedro ofrece 1
+diego ofrece 4
+pepe ofrece 2
+pedro fallo con su oferta de 1
+juan ofrece 3
+pepe fallo con su oferta de 2
+juan se adjudico un item a 3
+diego se adjudico un item a 4
+El monto recaudado es 7 y quedaron 0 unidades sin vender
+maria ofrece 3
+ximena ofrece 4
+erika ofrece 5
+maria fallo con su oferta de 3
+sonia ofrece 6
+ximena fallo con su oferta de 4
+erika se adjudico un item a 5
+sonia se adjudico un item a 6
+ana se adjudico un item a 7
+El monto recaudado es 18 y quedaron 0 unidades sin vender
+Enterrando tareas.  Cada '.' son 30 tareas enterradas.
+........................
+test aprobado
+-------------
+
+===============================================
+Prueba con spinlocks verdaderos con busywaiting
+===============================================
+
+una sola subasta con tiempos aleatorios
+diego ofrece 4
+pedro ofrece 1
+pepe ofrece 2
+pedro fallo con su oferta de 1
+juan ofrece 3
+pepe fallo con su oferta de 2
+juan se adjudico un item a 3
+diego se adjudico un item a 4
+El monto recaudado es 7 y quedaron 0 unidades sin vender
+test aprobado
+-------------
+una sola subasta con tiempos deterministicos
+ana ofrece 7
+maria ofrece 3
+ximena ofrece 4
+erika ofrece 5
+maria fallo con su oferta de 3
+sonia ofrece 6
+ximena fallo con su oferta de 4
+erika se adjudico un item a 5
+sonia se adjudico un item a 6
+ana se adjudico un item a 7
+El monto recaudado es 18 y quedaron 0 unidades sin vender
+test aprobado
+-------------
+una sola subasta con menos oferentes que unidades disponibles
+tomas ofrece 2
+monica ofrece 3
+El monto recaudado es 5 y quedaron 3 unidades sin vender
+monica se adjudico un item a 3
+tomas se adjudico un item a 2
+test aprobado
+-------------
+Test de robustez
+30 subastas en paralelo
+tomas ofrece 2
+ana ofrece 7
+juan ofrece 3
+pepe ofrece 2
+diego ofrece 4
+pepe fallo con su oferta de 2
+pedro ofrece 1
+pedro fallo con su oferta de 1
+diego se adjudico un item a 4
+juan se adjudico un item a 3
+El monto recaudado es 7 y quedaron 0 unidades sin vender
+monica ofrece 3
+maria ofrece 3
+El monto recaudado es 5 y quedaron 3 unidades sin vender
+tomas se adjudico un item a 2
+ximena ofrece 4
+monica se adjudico un item a 3
+erika ofrece 5
+maria fallo con su oferta de 3
+sonia ofrece 6
+ximena fallo con su oferta de 4
+erika se adjudico un item a 5
+sonia se adjudico un item a 6
+ana se adjudico un item a 7
+El monto recaudado es 18 y quedaron 0 unidades sin vender
+test aprobado
+-------------
+500 subastas en paralelo
+ana ofrece 7
+pepe ofrece 2
+juan ofrece 3
+pedro ofrece 1
+pedro fallo con su oferta de 1
+diego ofrece 4
+pepe fallo con su oferta de 2
+diego se adjudico un item a 4
+maria ofrece 3
+juan se adjudico un item a 3
+El monto recaudado es 7 y quedaron 0 unidades sin vender
+ximena ofrece 4
+erika ofrece 5
+maria fallo con su oferta de 3
+sonia ofrece 6
+ximena fallo con su oferta de 4
+erika se adjudico un item a 5
+ana se adjudico un item a 7
+sonia se adjudico un item a 6
+El monto recaudado es 18 y quedaron 0 unidades sin vender
+Enterrando tareas.  Cada '.' son 30 tareas enterradas.
+........................
+test aprobado
+-------------
+Felicitaciones: paso todos los tests

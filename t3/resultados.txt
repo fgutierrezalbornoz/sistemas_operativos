@@ -1,0 +1,178 @@
+Sistema operativo utilizado
+Linux debian12 6.1.0-18-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.1.76-1 (2024-02-01) x86_64 GNU/Linux
+==== make run ====
+gcc -O -DOPT=1  -Wall -Werror -Wno-unused-function -pedantic -std=c18  pedir.c test-pedir.c pss.c pedir.h pss.h -pthread -o pedir.bin
+./pedir.bin
+El ejemplo del enunciado
+------------------------
+
+Tpo=0: T1 (thread 1) invoca pedir(0)
+Tpo=0: T1 cat 0 obtiene recurso
+Tpo=1:                     T3 (thread 2) invoca pedir(0)
+Tpo=2:           T2 (thread 3) invoca pedir(1)
+Tpo=3:                                         T5 (thread 4) invoca pedir(0)
+Tpo=3: Esperando que T1 termine
+Tpo=4: T1 devuelve recurso
+Tpo=4:           T2 cat 1 obtiene recurso
+Tpo=4: T1 termino
+Tpo=5:                               T4 (thread 5) invoca pedir(1)
+Tpo=6:           T2 devuelve recurso
+Tpo=6:                     T3 cat 0 obtiene recurso
+Tpo=6:           Esperando que T2 termine
+Tpo=6:           T2 termino
+Tpo=6:                     Esperando que T3 termine
+Tpo=7:                     T3 devuelve recurso
+Tpo=7:                               T4 cat 1 obtiene recurso
+Tpo=7:                     T3 termino
+Tpo=7:                               Esperando que T4 termine
+Tpo=8:                               T4 devuelve recurso
+Tpo=8:                                         T5 cat 0 obtiene recurso
+Tpo=8:                               T4 termino
+Tpo=8:                                         Esperando que T5 termine
+Tpo=9:                                         T5 devuelve recurso
+Tpo=9:                                         T5 termino
+
+Test de robustez
+----------------
+
+
+Toma un poco mas de 10 segundos
+t1 t2 t3 ... significa que ese thread comenzo a trabajar
+
+t1 t2 t3 t4 t5 t6 t7 t8 
+Numero de entradas/salidas = 193188
+En mi computador make run reporto unas 10 mil entradas/salidas con 3 threads
+
+Felicitaciones: funciona
+==== make run-g ====
+gcc -g  -Wall -Werror -Wno-unused-function -pedantic -std=c18  pedir.c test-pedir.c pss.c pedir.h pss.h -pthread -o pedir.bin-g
+./pedir.bin-g
+El ejemplo del enunciado
+------------------------
+
+Tpo=0: T1 (thread 1) invoca pedir(0)
+Tpo=0: T1 cat 0 obtiene recurso
+Tpo=1:                     T3 (thread 2) invoca pedir(0)
+Tpo=2:           T2 (thread 3) invoca pedir(1)
+Tpo=3:                                         T5 (thread 4) invoca pedir(0)
+Tpo=3: Esperando que T1 termine
+Tpo=4: T1 devuelve recurso
+Tpo=4: T1 termino
+Tpo=4:           T2 cat 1 obtiene recurso
+Tpo=5:                               T4 (thread 5) invoca pedir(1)
+Tpo=6:           T2 devuelve recurso
+Tpo=6:                     T3 cat 0 obtiene recurso
+Tpo=6:           Esperando que T2 termine
+Tpo=6:           T2 termino
+Tpo=6:                     Esperando que T3 termine
+Tpo=7:                     T3 devuelve recurso
+Tpo=7:                     T3 termino
+Tpo=7:                               Esperando que T4 termine
+Tpo=7:                               T4 cat 1 obtiene recurso
+Tpo=8:                               T4 devuelve recurso
+Tpo=8:                                         T5 cat 0 obtiene recurso
+Tpo=8:                               T4 termino
+Tpo=8:                                         Esperando que T5 termine
+Tpo=9:                                         T5 devuelve recurso
+Tpo=9:                                         T5 termino
+
+Test de robustez
+----------------
+
+
+Toma un poco mas de 10 segundos
+t1 t2 t3 ... significa que ese thread comenzo a trabajar
+
+t1 t2 t3 t4 t5 t6 t7 t8 
+Numero de entradas/salidas = 162708
+En mi computador make run reporto unas 10 mil entradas/salidas con 3 threads
+
+Felicitaciones: funciona
+==== run-san ====
+gcc -g -DSAN=1 -fsanitize=thread -DSANITIZE  -Wall -Werror -Wno-unused-function -pedantic -std=c18  pedir.c test-pedir.c pss.c pedir.h pss.h -pthread -o pedir.bin-san
+./pedir.bin-san
+El ejemplo del enunciado
+------------------------
+
+Tpo=0: T1 (thread 1) invoca pedir(0)
+Tpo=0: T1 cat 0 obtiene recurso
+Tpo=1:                     T3 (thread 2) invoca pedir(0)
+Tpo=2:           T2 (thread 3) invoca pedir(1)
+Tpo=3:                                         T5 (thread 4) invoca pedir(0)
+Tpo=3: Esperando que T1 termine
+Tpo=4: T1 devuelve recurso
+Tpo=4:           T2 cat 1 obtiene recurso
+Tpo=4: T1 termino
+Tpo=5:                               T4 (thread 5) invoca pedir(1)
+Tpo=6:           T2 devuelve recurso
+Tpo=6:                     T3 cat 0 obtiene recurso
+Tpo=6:           Esperando que T2 termine
+Tpo=6:           T2 termino
+Tpo=6:                     Esperando que T3 termine
+Tpo=7:                     T3 devuelve recurso
+Tpo=7:                               T4 cat 1 obtiene recurso
+Tpo=7:                     T3 termino
+Tpo=7:                               Esperando que T4 termine
+Tpo=8:                               T4 devuelve recurso
+Tpo=8:                               T4 termino
+Tpo=8:                                         Esperando que T5 termine
+Tpo=8:                                         T5 cat 0 obtiene recurso
+Tpo=9:                                         T5 devuelve recurso
+Tpo=9:                                         T5 termino
+
+Test de robustez
+----------------
+
+
+Toma un poco mas de 10 segundos
+t1 t2 t3 ... significa que ese thread comenzo a trabajar
+
+t1 t2 t3 t4 t5 t6 t7 t8 
+Numero de entradas/salidas = 96698
+En mi computador make run reporto unas 10 mil entradas/salidas con 3 threads
+
+Felicitaciones: funciona
+==== run-thr ====
+gcc -g -DSAN=1 -DSANTHR -fsanitize=thread  -Wall -Werror -Wno-unused-function -pedantic -std=c18  pedir.c test-pedir.c pss.c  -pthread -o pedir.bin-thr
+./pedir.bin-thr
+El ejemplo del enunciado
+------------------------
+
+Tpo=0: T1 (thread 1) invoca pedir(0)
+Tpo=0: T1 cat 0 obtiene recurso
+Tpo=1:                     T3 (thread 2) invoca pedir(0)
+Tpo=2:           T2 (thread 3) invoca pedir(1)
+Tpo=3: Esperando que T1 termine
+Tpo=3:                                         T5 (thread 4) invoca pedir(0)
+Tpo=4: T1 devuelve recurso
+Tpo=4:           T2 cat 1 obtiene recurso
+Tpo=4: T1 termino
+Tpo=5:                               T4 (thread 5) invoca pedir(1)
+Tpo=6:           T2 devuelve recurso
+Tpo=6:           Esperando que T2 termine
+Tpo=6:                     T3 cat 0 obtiene recurso
+Tpo=6:           T2 termino
+Tpo=6:                     Esperando que T3 termine
+Tpo=7:                     T3 devuelve recurso
+Tpo=7:                               T4 cat 1 obtiene recurso
+Tpo=7:                     T3 termino
+Tpo=7:                               Esperando que T4 termine
+Tpo=8:                               T4 devuelve recurso
+Tpo=8:                               T4 termino
+Tpo=8:                                         Esperando que T5 termine
+Tpo=8:                                         T5 cat 0 obtiene recurso
+Tpo=9:                                         T5 devuelve recurso
+Tpo=9:                                         T5 termino
+
+Test de robustez
+----------------
+
+
+Toma un poco mas de 10 segundos
+t1 t2 t3 ... significa que ese thread comenzo a trabajar
+
+t1 t2 t3 t4 t5 t6 t7 t8 
+Numero de entradas/salidas = 104368
+En mi computador make run reporto unas 10 mil entradas/salidas con 3 threads
+
+Felicitaciones: funciona
